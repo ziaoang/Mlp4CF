@@ -61,8 +61,6 @@ train_step = tf.train.GradientDescentOptimizer(learn_rate).minimize(loss)
 
 # iterator
 random.seed(123456789)
-rmse_score_list = []
-mae_score_list = []
 for epoch in range(epoch_count):
     random.shuffle(train_set)
 
@@ -89,13 +87,6 @@ for epoch in range(epoch_count):
 
     rmse_score = rmse.eval(feed_dict={u:test_u, v:test_v, r:test_r})
     mae_score = mae.eval(feed_dict={u:test_u, v:test_v, r:test_r})
-    rmse_score_list.append(rmse_score)
-    mae_score_list.append(mae_score)
-    print("%.4f"%rmse_score)
-
-min_rmse = min(rmse_score_list)
-min_mae = min(mae_score_list)
-print("%d\t%.4f\t%.4f\t%.4f\t%.4f"%(batch_size, learn_rate, re_lambda, min_rmse, min_mae))
-
+    print("%.4f\t%.4f"%(rmse_score, mae_score))
 
 

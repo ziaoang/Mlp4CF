@@ -1,6 +1,7 @@
 import tensorflow as tf
 from load import load
 import random
+import math
 import sys
 
 try:
@@ -41,7 +42,23 @@ V = tf.Variable(tf.random_uniform([item_count, k], -0.05, 0.05))
 u_factor = tf.gather(U, u)
 v_factor = tf.gather(V, v)
 
-y = tf.reduce_sum(u_factor * v_factor, 1)
+merge = tf.concat(1, [u_factor, v_factor])
+
+size1 = 2 * k
+size2 = k
+size3 = 1
+scale12 = math.sqrt(6.0 / (size1 + size2)) 
+scale23 = math.sqrt(6.0 / (size2 + size3)) 
+
+W1 = tf.Variable(tf.random_uniform([size1, size2], -scale12, scale12))
+b1 = tf.Variable(tf.random_uniform([size2],        -scale12, scale12))
+W2 = tf.Variable(tf.random_uniform([size2, size3], -scale23, scale23))
+b2 = tf.Variable(tf.random_uniform([size3],        -scale23, scale23))
+
+y1 = tf.sigmoid(tf.matmul(merge, W1) + b1) 
+y2  = tf.matmul(y1, W2) + b2
+
+y = tf.reshape(y2, [-1])
 rmse = tf.sqrt(tf.reduce_mean(tf.square(r - y)))
 mae  = tf.reduce_mean(tf.abs(r - y))
 

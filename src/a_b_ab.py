@@ -42,10 +42,10 @@ V = tf.Variable(tf.random_uniform([item_count, k], -0.05, 0.05))
 u_factor = tf.gather(U, u)
 v_factor = tf.gather(V, v)
 
-merge = tf.concat(1, [u_factor, v_factor])
+merge = tf.concat(1, [u_factor, v_factor, u_factor * v_factor])
 
-size1 = 2 * k
-size2 = k
+size1 = 3 * k
+size2 = 3 * k / 2
 size3 = 1
 scale12 = math.sqrt(6.0 / (size1 + size2)) 
 scale23 = math.sqrt(6.0 / (size2 + size3)) 
@@ -73,8 +73,6 @@ train_step = tf.train.GradientDescentOptimizer(learn_rate).minimize(loss)
 
 # iterator
 random.seed(123456789)
-rmse_score_list = []
-mae_score_list = []
 for epoch in range(epoch_count):
     random.shuffle(train_set)
 
@@ -101,13 +99,6 @@ for epoch in range(epoch_count):
 
     rmse_score = rmse.eval(feed_dict={u:test_u, v:test_v, r:test_r})
     mae_score = mae.eval(feed_dict={u:test_u, v:test_v, r:test_r})
-    rmse_score_list.append(rmse_score)
-    mae_score_list.append(mae_score)
-    print("%.4f"%rmse_score)
-
-min_rmse = min(rmse_score_list)
-min_mae = min(mae_score_list)
-print("%d\t%.4f\t%.4f\t%.4f\t%.4f"%(batch_size, learn_rate, re_lambda, min_rmse, min_mae))
-
+    print("%.4f\t%.4f"%(rmse_score, mae_score))
 
 
