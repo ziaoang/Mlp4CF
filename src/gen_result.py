@@ -3,7 +3,7 @@ import sys
 
 df = open("result.txt", "w")
 for method in ['mf', 'bmf', 'a_b', 'a_b_ab']:
-    for batch_size in ['64', '256', '1024']:
+    for batch_size in ['64', '128', '256', '1024']:
         for learn_rate in ['0.5', '0.1', '0.05', '0.01']:
             for re_lambda in ['0', '0.1', '0.01', '0.001']:
                 file_path = "log/%s_%s_%s_%s.log"%(method, batch_size, learn_rate, re_lambda)
