@@ -20,7 +20,7 @@ print("="*20)
 
 k = 10
 epoch_count = 100
-dataset = "ml-1m"
+dataset = "jester"
 
 # load data
 train_set, test_set = load(dataset)
@@ -42,7 +42,7 @@ V = tf.Variable(tf.random_uniform([item_count, k], -0.05, 0.05))
 u_factor = tf.gather(U, u)
 v_factor = tf.gather(V, v)
 
-merge = tf.concat(1, [u_factor, v_factor, u_factor * v_factor])
+merge = tf.concat([u_factor, v_factor, u_factor * v_factor], 1)
 
 size1 = 3 * k
 size2 = 3 * k / 2
@@ -64,7 +64,7 @@ mae  = tf.reduce_mean(tf.abs(r - y))
 
 # loss function
 sess = tf.InteractiveSession()
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
 
 re_u_factor = tf.reduce_sum(tf.square(u_factor), 1)
 re_v_factor = tf.reduce_sum(tf.square(v_factor), 1)

@@ -19,7 +19,7 @@ print("="*20)
 
 k = 10
 epoch_count = 100
-dataset = "ml-1m"
+dataset = "jester"
 
 # load data
 train_set, test_set = load(dataset)
@@ -52,7 +52,7 @@ mae  = tf.reduce_mean(tf.abs(r - y))
 
 # loss function
 sess = tf.InteractiveSession()
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
 
 re_u_factor = tf.reduce_sum(tf.square(u_factor), 1)
 re_v_factor = tf.reduce_sum(tf.square(v_factor), 1)
