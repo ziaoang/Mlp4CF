@@ -5,9 +5,10 @@ import math
 import sys
 
 try:
-    batch_size = int(sys.argv[1])
-    learn_rate = float(sys.argv[2])
-    re_lambda  = float(sys.argv[3])
+    dataset    = sys.argv[1]
+    batch_size = int(sys.argv[2])
+    learn_rate = float(sys.argv[3])
+    re_lambda  = float(sys.argv[4])
 except:
     print("batch_size learn_rate re_lambda")
     exit()
@@ -20,7 +21,6 @@ print("="*20)
 
 k = 10
 epoch_count = 100
-dataset = "jester"
 
 # load data
 train_set, test_set = load(dataset)
